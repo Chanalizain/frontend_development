@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List with Filters</title>
+    <style>
+        .priority-0 { background-color: grey; color: white; }
+        .priority-1 { background-color: rgb(247, 96, 96); color: white; }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            height: 50px;
+            width: 300px;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 5px;
+        }
+        h2, li {
+            margin-left: 50px;
+        }
+
+        /* Styling for input container */
+        .input-container {
+            margin: 20px 50px;
+            display: flex;
+            flex-direction: column;
+            width: 220px;
+        }
+
+        input, select, button {
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 10px;
+            background-color: rgb(231, 230, 231);
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100px;
+        }
+
+        .filter-buttons {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;  
+            gap: 10px;
+            width: 220px;  
+            margin-left: 50px; 
+        }
+        
+        .filter-buttons button {
+            width: 100%;  
+        }
+    </style>
+</head>
+<body>
+    
+
+    <!-- Input fields and button -->
+    <div class="input-container">
+        <p>Task:</p>
+        <input type="text" id="taskInput" placeholder="Enter task">
+        <p>Tag:</p>
+        <select id="priorityInput">
+            <option value="0">Less important</option>
+            <option value="1">Important</option>
+        </select>
+        <button onclick="addTask()">Add Task</button>
+    </div>
+
+    <!-- Filter buttons -->
+    <div class="filter-buttons">
+        <button onclick="filterTasks(1)">Important Tasks</button>
+        <button onclick="filterTasks(0)">Less Important Tasks</button>
+        <button onclick="filterTasks()">All Tasks</button>
+    </div>
+
+    <ul id="taskList"></ul>
+
+    <script>
+        let tasks = [];  // All tasks
+        let filteredTasks = [];  // Tasks to be displayed (filtered)
+
+        function displayTasks() {
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = ""; // Clear previous tasks
+
+            filteredTasks.forEach(task => {
+                let li = document.createElement("li"); 
+                li.textContent = task.text; // Set task text
+
+                // Apply CSS class based on priority
+                if (task.priority === 0) {
+                    li.classList.add("priority-0"); 
+                } else if (task.priority === 1) {
+                    li.classList.add("priority-1"); 
+                }
+
+                taskList.appendChild(li);
+            });
+        }
+
+        function addTask() {
+            let taskInput = document.getElementById("taskInput");
+            let priorityInput = document.getElementById("priorityInput");
+
+            let newTaskText = taskInput.value.trim();
+            let newTaskPriority = parseInt(priorityInput.value);
+
+            if (newTaskText === "") {
+                alert("Please enter a task!");
+                return;
+            }
+
+            // Create new task object and add it to tasks array
+            let newTask = { text: newTaskText, priority: newTaskPriority };
+            tasks.push(newTask);
+
+            // By default, display all tasks
+            filteredTasks = [...tasks]; // Copy all tasks to filteredTasks
+            displayTasks(); // Update the DOM
+
+            // Clear input fields
+            taskInput.value = "";
+            priorityInput.value = "0";
+        }
+
+        function filterTasks(priority) {
+            if (priority === undefined) {
+                // If no priority is passed, show all tasks
+                filteredTasks = [...tasks]; // Copy all tasks to filteredTasks
+            } else {
+                // Filter tasks by the given priority
+                filteredTasks = tasks.filter(task => task.priority === priority);
+            }
+
+            displayTasks(); // Update the DOM with filtered tasks
+        }
+
+        
+        
+    </script>
+    
+</body>
+</html>

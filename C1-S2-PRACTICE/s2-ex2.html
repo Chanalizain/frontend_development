@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .priority-0 { background-color: grey; color: white; }
+        .priority-1 { background-color: rgb(247, 96, 96); color: white; }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            height: 50px;
+            width: 300px;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 5px;
+        }
+        h2, li{
+            margin-left: 50px;
+        }
+        /* Styling for input and button */
+        .input-container {
+            margin: 20px 50px;
+            display: flex;
+            flex-direction: column; 
+            width: 220px;
+        }
+        input, select, button {
+            padding: 8px;
+            font-size: 16px;
+        }
+        button {
+            margin-top: 10px; 
+            background-color: rgb(231, 230, 231);
+            color: rgb(0, 0, 0);
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    
+
+    <!-- Input fields and button -->
+    <div class="input-container">
+        <p>Task:</p>
+        <input type="text" id="taskInput" placeholder="Enter task">
+        <p>Tag:</p>
+        <select id="priorityInput">
+            <option value="0">less important</option>
+            <option value="1">important</option>
+        </select>
+        <button onclick="addTask()">Add Task</button>
+    </div>
+
+    <ul id="taskList"></ul>
+
+    <script>
+        let tasks = [
+            
+        ];
+
+        function displayTasks() {
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = ""; // Clear previous tasks
+
+            tasks.forEach(task => {
+                let li = document.createElement("li"); // Create list item
+                li.textContent = task.text; // Set task text
+
+                // Apply CSS class based on priority
+                if (task.priority === 0) {
+                    li.classList.add("priority-0");
+                } else if (task.priority === 1) {
+                    li.classList.add("priority-1"); 
+                }
+
+                taskList.appendChild(li); 
+            });
+        }
+
+        function addTask() {
+            let taskInput = document.getElementById("taskInput");
+            let priorityInput = document.getElementById("priorityInput");
+
+            let newTaskText = taskInput.value.trim();
+            let newTaskPriority = parseInt(priorityInput.value);
+
+            if (newTaskText === "") {
+                alert("Please enter a task!");
+                return;
+            }
+
+            // Create new task object and add it to array
+            let newTask = { text: newTaskText, priority: newTaskPriority };
+            tasks.push(newTask);
+
+            displayTasks(); // Update the DOM
+
+            // Clear input fields
+            taskInput.value = "";
+            priorityInput.value = "0";
+        }
+
+        
+        displayTasks(); 
+    </script>
+    
+</body>
+</html>

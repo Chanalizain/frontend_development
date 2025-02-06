@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .priority-0 { background-color: grey; }
+        .priority-1 { background-color: rgb(247, 96, 96); }
+
+        ul{
+            list-style: none;
+            
+        }
+        li{
+            margin-bottom: 10px;
+            height: 50px;
+            width: 300px;
+            text-align: center;
+        }
+        h2{
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Task List</h2>
+    <ul id="taskList"></ul>
+
+    <script>
+        let tasks = [
+            { text: "Task1", priority: 1 },
+            { text: "Task2", priority: 0 },
+            { text: "Task3", priority: 1 }
+        ];
+        function displayTasks(tasks) {
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = ""; // Clear previous tasks
+
+            tasks.forEach(task => {
+                let li = document.createElement("li"); // Create a list item
+                li.textContent = task.text; // Set task text
+
+                // Apply CSS class based on priority
+                if (task.priority === 0) {
+                    li.classList.add("priority-0"); 
+                } else if (task.priority === 1) {
+                    li.classList.add("priority-1"); 
+                }
+
+                taskList.appendChild(li); 
+            });
+        }
+
+        displayTasks(tasks);
+    </script>
+</body>
+</html>
